@@ -34,6 +34,13 @@ app.put("/courses/:id", (req, res) => {
   res.json(course);
 });
 
+app.delete("/courses/:id", (req, res) => {
+  const courseId = parseInt(req.params.id);
+  const courseIdx = courses.findIndex((c) => c.id === courseId);
+  courses.splice(courseIdx, 1);
+  res.json(courses);
+});
+
 app.listen(3000, () => {
   console.log("server started");
 });
