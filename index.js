@@ -1,6 +1,8 @@
 const express = require("express");
 const app = express();
 app.use(express.json());
+app.use(middleware);
+app.use(logger);
 
 let courses = [
   { id: 1, name: "java" },
@@ -44,3 +46,19 @@ app.delete("/courses/:id", (req, res) => {
 app.listen(3000, () => {
   console.log("server started");
 });
+
+function middleware(req, res, next) {
+  console.log("called");
+  next();
+}
+
+function logger(req, res, next) {
+  const method = req.method;
+  const ip = req.ip;
+  const date = new Date().toISOString();
+  const hostname = req.hostname;
+
+  console.log(`${date}: ${method} ${req.originalUrl} from ${ip} (${hostname})`);
+
+  next();
+}
